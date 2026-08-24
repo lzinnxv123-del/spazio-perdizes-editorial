@@ -1,24 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const TITLE = "Spazio Perdizes — Salão de beleza em Perdizes, São Paulo";
+const DESC =
+  "Cabelo, unhas, maquiagem e cuidados na Rua Tucuna, 710 — Perdizes, São Paulo. 4,7 estrelas e mais de 300 avaliações no Google.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESC },
+      { property: "og:title", content: "Spazio Perdizes — Beleza, do seu jeito." },
+      { property: "og:description", content: DESC },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+/**
+ * O protótipo é 100% HTML/CSS/JS estático e vive em `public/site/`.
+ * Esta rota apenas envia o visitante para lá.
+ */
 function Index() {
+  useEffect(() => {
+    window.location.replace("/site/index.html");
+  }, []);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <a href="/site/index.html" className="text-sm underline">
+        Abrir o protótipo do Spazio Perdizes
+      </a>
     </div>
   );
 }
